@@ -160,6 +160,7 @@ void ShowNotification(const std::wstring& title, const std::wstring& message) {
     nid.dwInfoFlags = NIIF_USER | NIIF_LARGE_ICON; // Use application icon
     nid.uFlags |= NIF_INFO; 
     Shell_NotifyIcon(NIM_MODIFY, &nid);
+    nid.uFlags &= ~NIF_INFO; // Clear flag to prevent persistence
 }
 
 void StartPhase(bool working) {
@@ -178,6 +179,7 @@ void TogglePause() {
     if (isPaused) {
         KillTimer(hMainWnd, ID_TIMER_UPDATE);
         wcscpy_s(nid.szTip, L"Pomodoro: Paused");
+        nid.uFlags = NIF_TIP;
         Shell_NotifyIcon(NIM_MODIFY, &nid);
     } else {
         SetTimer(hMainWnd, ID_TIMER_UPDATE, 1000, NULL);
@@ -192,6 +194,7 @@ void UpdateTooltip() {
     std::wstring text = L"Pomodoro: " + state + L" (" + std::to_wstring(min) + L":" + (sec < 10 ? L"0" : L"") + std::to_wstring(sec) + L")";
     
     wcscpy_s(nid.szTip, text.c_str());
+    nid.uFlags = NIF_TIP;
     Shell_NotifyIcon(NIM_MODIFY, &nid);
 }
 
@@ -280,6 +283,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
                 } else {
                     // Phase complete
                     KillTimer(hwnd, ID_TIMER_UPDATE);
+                    
+                    // Prevent re-entry or multiple triggers
+                    static bool isProcessing = false;
+                    if (isProcessing) break;
+                    isProcessing = true;
+
                     if (isWorking) {
                          ShowNotification(L"Time to take a break!", L" ");
                          StartPhase(false); // Start rest
@@ -287,6 +296,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
                          ShowNotification(L"Break time over!", L"Ready to focus again?");
                          StartPhase(true); // Start work
                     }
+                    
+                    isProcessing = false;
                 }
             }
             break;
