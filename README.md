@@ -36,6 +36,12 @@ This application focuses on reminding users to **take regular breaks and stay aw
 - MinGW (GCC) or Visual Studio (MSVC) C++ compiler.
 - Windows SDK libraries (GDI+, Shell32, User32, Advapi32).
 
+### Clone the repo
+
+```bash
+git clone https://github.com/FinalHope487/Rest-Pomodoro-Timer
+```
+
 ### Building with MinGW (g++)
 
 ```bash
