@@ -52,7 +52,7 @@ cl.exe /DUNICODE /D_UNICODE main.cpp user32.lib shell32.lib gdi32.lib advapi32.l
 
 ## Resources
 
-Icon: creazilla.com/zh-tw/media/emoji/44512/yuan-quan
+Icon: [creazilla.com/zh-tw/media/emoji/44512/yuan-quan](https://creazilla.com/zh-tw/media/emoji/44512/yuan-quan)
 
 ## License
 
