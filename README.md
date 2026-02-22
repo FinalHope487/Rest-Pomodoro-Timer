@@ -46,7 +46,7 @@ git clone https://github.com/FinalHope487/Rest-Pomodoro-Timer
 
 ```bash
 windres resource.rc -o resource.o
-g++ globals.cpp timer_logic.cpp ui.cpp main.cpp resource.o -o pomodoro.exe -mwindows -Wall
+g++ globals.cpp timer_logic.cpp ui.cpp main.cpp resource.o -o pomodoro.exe -mwindows -Wall -static
 ```
 
 ### Building with Visual Studio (MSVC)
