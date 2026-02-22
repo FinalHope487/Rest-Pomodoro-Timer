@@ -11,7 +11,7 @@ This application focuses on reminding users to **take regular breaks and stay aw
 - **Notifications**: Native Windows balloon/toast notifications for work/break transitions.
 - **Customizable Timer**: Set your preferred work and rest durations.
 - **Auto-Start on boot**: (Optional) Automatically start with Windows.
-- **Custom Icon**: Support for `.png` or `.ico` custom icons.
+- **Custom Icon**: Support for `.ico` custom icons.
 - **Pause/Resume**: Pause the timer when needed.
 
 ## How to Use
@@ -26,7 +26,7 @@ This application focuses on reminding users to **take regular breaks and stay aw
     - **Pause/Resume**: Use the button in Settings or the Right-click menu.
     - **Exit**: Right-click the tray icon -> Exit.
 5. **Custom Icon**:
-    - Place a file named `icon.png` (recommended) or `icon.ico` in the same directory as the executable.
+    - Place a file named `icon.ico` in the same directory as the executable.
     - Restart the application.
 
 ## Build Instructions
@@ -45,7 +45,8 @@ git clone https://github.com/FinalHope487/Rest-Pomodoro-Timer
 ### Building with MinGW (g++)
 
 ```bash
-g++ -o pomodoro.exe main.cpp -lgdi32 -luser32 -lshell32 -ladvapi32 -lgdiplus -mwindows
+windres resource.rc -o resource.o
+g++ globals.cpp timer_logic.cpp ui.cpp main.cpp resource.o -o pomodoro.exe -mwindows -Wall
 ```
 
 ### Building with Visual Studio (MSVC)

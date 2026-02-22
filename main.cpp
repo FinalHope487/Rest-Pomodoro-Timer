@@ -1,20 +1,11 @@
 #include "globals.h"
 #include "timer_logic.h"
 #include "ui.h"
-#include <gdiplus.h>
-
-using namespace Gdiplus;
-
+#include "resource.h"
 // Entry Point
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     hInst = hInstance;
     
-    // Initialize GDI+
-    GdiplusStartupInput gdiplusStartupInput;
-    GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
-
-    LoadSettings();
-
     // Register Main Window Class
     WNDCLASSEX wc = {0};
     wc.cbSize = sizeof(wc);
@@ -30,8 +21,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wcSettings.hInstance = hInstance;
     wcSettings.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
     wcSettings.lpszClassName = L"PomodoroSettingsClass";
-    wcSettings.hIcon = LoadIconFromPNG(L"icon.png");
-    if (!wcSettings.hIcon) wcSettings.hIcon = (HICON)LoadImage(NULL, L"icon.ico", IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE | LR_SHARED);
+    wcSettings.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_APP_ICON));
     if (!wcSettings.hIcon) wcSettings.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     wcSettings.hCursor = LoadCursor(NULL, IDC_ARROW);
     RegisterClassEx(&wcSettings);
@@ -54,10 +44,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         DispatchMessage(&msg);
     }
 
-    RemoveNotifyIcon();
-    
-    // Shutdown GDI+
-    GdiplusShutdown(gdiplusToken);
+    // Shutdown
     
     return (int)msg.wParam;
 }

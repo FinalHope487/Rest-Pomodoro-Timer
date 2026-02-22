@@ -2,9 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <shellapi.h>
-#include <gdiplus.h>
-
-using namespace Gdiplus;
+#include "resource.h"
 
 void InitNotifyIcon(HWND hwnd) {
     ZeroMemory(&nid, sizeof(nid));
@@ -13,8 +11,7 @@ void InitNotifyIcon(HWND hwnd) {
     nid.uID = ID_TRAY_APP_ICON;
     nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
     nid.uCallbackMessage = WM_TRAYICON;
-    nid.hIcon = LoadIconFromPNG(L"icon.png");
-    if (!nid.hIcon) nid.hIcon = (HICON)LoadImage(NULL, L"icon.ico", IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE | LR_SHARED);
+    nid.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_APP_ICON));
     if (!nid.hIcon) nid.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     wcscpy_s(nid.szTip, L"Pomodoro Timer");
     Shell_NotifyIcon(NIM_ADD, &nid);
@@ -104,14 +101,4 @@ void SetAutoStart(bool enable) {
     }
 }
 
-HICON LoadIconFromPNG(const std::wstring& filePath) {
-    Bitmap* bitmap = Bitmap::FromFile(filePath.c_str());
-    if (bitmap && bitmap->GetLastStatus() == Ok) {
-        HICON hIcon = NULL;
-        bitmap->GetHICON(&hIcon);
-        delete bitmap;
-        return hIcon;
-    }
-    if (bitmap) delete bitmap;
-    return NULL;
-}
+

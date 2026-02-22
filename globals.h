@@ -40,5 +40,3 @@ extern int workDuration; // Minutes
 extern int restDuration;  // Minutes
 extern int remainingSeconds;
 extern bool autoStart;
-
-extern ULONG_PTR gdiplusToken;
