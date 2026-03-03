@@ -11,4 +11,3 @@ void SetAutoStart(bool enable);
 void StartPhase(bool working);
 void TogglePause();
 void UpdateTooltip();
-HICON LoadIconFromPNG(const std::wstring& filePath);
